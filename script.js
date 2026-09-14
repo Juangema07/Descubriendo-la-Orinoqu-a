@@ -8,79 +8,115 @@
   const safeRemove = (key) => { try { localStorage.removeItem(key); } catch (_) {} };
 
   const loader = $('#loader');
-  window.addEventListener('load', () => { window.setTimeout(() => loader?.remove(), 350); }, { once: true });
+  window.addEventListener('load', () => window.setTimeout(() => loader?.classList.add('done'), 250), { once: true });
 
-  const nav = $('.nav-wrap');
+  const header = $('.site-header');
   const menuBtn = $('#menuBtn');
   const navLinks = $('#navLinks');
-  const setMenu = (open) => { nav?.classList.toggle('menu-open', open); menuBtn?.setAttribute('aria-expanded', String(open)); };
-  menuBtn?.addEventListener('click', () => setMenu(!nav?.classList.contains('menu-open')));
+  const setMenu = open => {
+    navLinks?.classList.toggle('mobile-open', open);
+    menuBtn?.setAttribute('aria-expanded', String(open));
+  };
+  menuBtn?.addEventListener('click', () => setMenu(!navLinks?.classList.contains('mobile-open')));
   $$('#navLinks a').forEach(link => link.addEventListener('click', () => setMenu(false)));
 
   const settings = $('#settings');
   const settingsBtn = $('#settingsBtn');
   const closeSettings = $('#closeSettings');
-  const setSettings = (open) => { settings?.classList.toggle('open', open); settings?.setAttribute('aria-hidden', String(!open)); settingsBtn?.setAttribute('aria-expanded', String(open)); };
+  const setSettings = open => {
+    settings?.classList.toggle('open', open);
+    settings?.setAttribute('aria-hidden', String(!open));
+    settingsBtn?.setAttribute('aria-expanded', String(open));
+  };
   settingsBtn?.addEventListener('click', () => setSettings(!settings?.classList.contains('open')));
   closeSettings?.addEventListener('click', () => setSettings(false));
-  document.addEventListener('keydown', event => { if (event.key === 'Escape') { setSettings(false); setMenu(false); } });
-  document.addEventListener('click', event => { if (settings?.classList.contains('open') && !settings.contains(event.target) && event.target !== settingsBtn) setSettings(false); });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') { setSettings(false); setMenu(false); }
+  });
+  document.addEventListener('click', event => {
+    if (settings?.classList.contains('open') && !settings.contains(event.target) && event.target !== settingsBtn) setSettings(false);
+  });
 
   const theme = $('#theme');
   const fontSize = $('#fontSize');
   const reduceMotion = $('#reduceMotion');
   const applyPrefs = () => {
-    const savedTheme = safeGet('orinoquia-theme', 'llano');
-    const savedSize = safeGet('orinoquia-size', '100');
-    const savedMotion = safeGet('orinoquia-motion', '0') === '1';
-    document.body.classList.toggle('theme-night', savedTheme === 'noche');
+    const savedTheme = safeGet('ruta-theme', 'llano');
+    const savedSize = safeGet('ruta-size', '100');
+    const savedMotion = safeGet('ruta-motion', '0') === '1';
+    document.body.classList.toggle('theme-noche', savedTheme === 'noche');
     document.body.classList.toggle('theme-arena', savedTheme === 'arena');
     document.body.classList.toggle('reduce-motion', savedMotion);
-    document.documentElement.style.setProperty('--scale', String(Number(savedSize) / 100));
+    document.documentElement.style.setProperty('--font-scale', String(Number(savedSize) / 100));
     if (theme) theme.value = savedTheme;
     if (fontSize) fontSize.value = savedSize;
     if (reduceMotion) reduceMotion.checked = savedMotion;
   };
-  theme?.addEventListener('change', () => { safeSet('orinoquia-theme', theme.value); applyPrefs(); });
-  fontSize?.addEventListener('input', () => { safeSet('orinoquia-size', fontSize.value); applyPrefs(); });
-  reduceMotion?.addEventListener('change', () => { safeSet('orinoquia-motion', reduceMotion.checked ? '1' : '0'); applyPrefs(); });
-  $('#resetSettings')?.addEventListener('click', () => { safeRemove('orinoquia-theme'); safeRemove('orinoquia-size'); safeRemove('orinoquia-motion'); applyPrefs(); });
+  theme?.addEventListener('change', () => { safeSet('ruta-theme', theme.value); applyPrefs(); });
+  fontSize?.addEventListener('input', () => { safeSet('ruta-size', fontSize.value); applyPrefs(); });
+  reduceMotion?.addEventListener('change', () => { safeSet('ruta-motion', reduceMotion.checked ? '1' : '0'); applyPrefs(); });
+  $('#resetSettings')?.addEventListener('click', () => { safeRemove('ruta-theme'); safeRemove('ruta-size'); safeRemove('ruta-motion'); applyPrefs(); });
   applyPrefs();
 
+  const deptData = {
+    meta: ['Meta', 'Villavicencio', 'Es una puerta de entrada a los Llanos y combina piedemonte, sabanas, actividad agropecuaria, servicios y destinos naturales como la Sierra de La Macarena.'],
+    casanare: ['Casanare', 'Yopal', 'Tiene una fuerte relación con la ganadería y la actividad agropecuaria, además de una historia económica marcada por la explotación de hidrocarburos.'],
+    arauca: ['Arauca', 'Arauca', 'Está en el extremo norte de la Orinoquía y combina cordillera, piedemonte y llanura aluvial. También tiene una importante relación fronteriza con Venezuela.'],
+    vichada: ['Vichada', 'Puerto Carreño', 'Es un territorio de grandes extensiones de sabana y bosques, con ríos como el Orinoco y el Meta y áreas de alto valor para la conservación.']
+  };
+  const renderDept = key => {
+    const data = deptData[key] || deptData.meta;
+    const box = $('#deptInfo'); if (!box) return;
+    box.replaceChildren();
+    const h = document.createElement('h3'); h.textContent = `${data[0]} · ${data[1]}`;
+    const p = document.createElement('p'); p.textContent = data[2];
+    box.append(h, p);
+  };
+  $$('.dept').forEach(btn => btn.addEventListener('click', () => {
+    $$('.dept').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderDept(btn.dataset.dept);
+  }));
+  renderDept('meta');
+
   const layerData = {
-    paisaje: { big:'01', title:'Sabanas que parecen infinitas', text:'Las llanuras, esteros y bosques de galería forman un mosaico de ambientes. El relieve relativamente plano ayuda a explicar el aspecto abierto de buena parte del paisaje.', chips:['Sabanas','Esteros','Bosques de galería'] },
-    agua: { big:'02', title:'El agua organiza el territorio', text:'Ríos y humedales sostienen ecosistemas, actividades humanas y conexiones naturales. La dinámica del agua cambia notablemente entre las temporadas de lluvia y sequía.', chips:['Ríos','Humedales','Ciclo estacional'] },
-    poblacion: { big:'03', title:'Personas y territorio', text:'Las comunidades urbanas y rurales mantienen relaciones distintas con el paisaje. La cultura llanera reúne conocimientos, oficios, música y prácticas asociadas al territorio.', chips:['Ciudades','Comunidades rurales','Identidad'] },
-    conservacion: { big:'04', title:'Conservar es pensar a largo plazo', text:'La protección de humedales, bosques y sabanas requiere equilibrar biodiversidad, producción y bienestar de las comunidades.', chips:['Biodiversidad','Uso sostenible','Restauración'] }
+    paisaje: ['01','Sabanas que parecen infinitas','Las llanuras, esteros y bosques de galería forman un mosaico de ambientes. El relieve relativamente plano ayuda a explicar el aspecto abierto de buena parte del paisaje.',['Sabanas','Esteros','Bosques de galería']],
+    agua: ['02','El agua organiza el territorio','Ríos y humedales sostienen ecosistemas, actividades humanas y conexiones naturales. La dinámica del agua cambia entre las temporadas de lluvia y sequía.',['Ríos','Humedales','Ciclo estacional']],
+    poblacion: ['03','Personas y territorio','Las comunidades urbanas y rurales mantienen relaciones distintas con el paisaje. La cultura llanera reúne conocimientos, oficios, música y prácticas asociadas al territorio.',['Ciudades','Comunidades rurales','Identidad']],
+    conservacion: ['04','Conservar es pensar a largo plazo','La protección de humedales, bosques y sabanas requiere equilibrar biodiversidad, producción y bienestar de las comunidades.',['Biodiversidad','Uso sostenible','Restauración']]
   };
   const renderLayer = key => {
     const data = layerData[key] || layerData.paisaje;
     const view = $('#layerView'); if (!view) return;
     view.replaceChildren();
-    const big = document.createElement('div'); big.className = 'big'; big.textContent = data.big;
-    const title = document.createElement('h3'); title.textContent = data.title;
-    const text = document.createElement('p'); text.textContent = data.text;
+    const big = document.createElement('div'); big.className = 'big'; big.textContent = data[0];
+    const title = document.createElement('h3'); title.textContent = data[1];
+    const text = document.createElement('p'); text.textContent = data[2];
     const chips = document.createElement('div'); chips.className = 'chips';
-    data.chips.forEach(item => { const chip = document.createElement('span'); chip.textContent = item; chips.appendChild(chip); });
+    data[3].forEach(item => { const chip = document.createElement('span'); chip.textContent = item; chips.appendChild(chip); });
     view.append(big, title, text, chips);
   };
-  $$('.layer-tab').forEach(btn => btn.addEventListener('click', () => { $$('.layer-tab').forEach(b => b.classList.remove('active')); btn.classList.add('active'); renderLayer(btn.dataset.layer); }));
+  $$('.layer-tab').forEach(btn => btn.addEventListener('click', () => {
+    $$('.layer-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderLayer(btn.dataset.layer);
+  }));
   renderLayer('paisaje');
 
-  const wildData = {
+  const bioData = {
     'chigüiro': ['Chigüiro','Es uno de los mamíferos más representativos de los Llanos y está asociado a ambientes con agua y vegetación de sabana.'],
     aves: ['Aves','Los humedales, sabanas y bosques ofrecen alimento y refugio para numerosas especies de aves residentes y migratorias.'],
-    humedales: ['Humedales','Estos ambientes almacenan agua, sirven como refugio para la fauna y cumplen funciones ecológicas importantes durante los ciclos de lluvia y sequía.']
+    cocodrilo: ['Caimán llanero','Es una especie amenazada y un ejemplo de por qué la conservación de ríos y humedales importa para toda la región.'],
+    macarena: ['Sierra de La Macarena','En este espacio convergen ambientes de Amazonía, Orinoquía y zonas de montaña, lo que ayuda a explicar su gran diversidad.']
   };
-  $$('.wild-card').forEach(card => card.addEventListener('click', () => {
-    const data = wildData[card.dataset.info] || ['Biodiversidad','La Orinoquía reúne ambientes que sostienen una gran variedad de formas de vida.'];
-    const box = $('#wildDetail'); if (!box) return;
+  $$('.bio-card').forEach(card => card.addEventListener('click', () => {
+    const data = bioData[card.dataset.bio] || ['Biodiversidad','La Orinoquía reúne ambientes que sostienen una gran variedad de formas de vida.'];
+    const box = $('#bioDetail'); if (!box) return;
     box.replaceChildren();
-    const eyebrow = document.createElement('p'); eyebrow.className = 'eyebrow'; eyebrow.textContent = 'BIODIVERSIDAD';
+    const eyebrow = document.createElement('p'); eyebrow.className = 'eyebrow'; eyebrow.textContent = 'FICHA RÁPIDA';
     const title = document.createElement('h3'); title.textContent = data[0];
     const text = document.createElement('p'); text.textContent = data[1];
     box.append(eyebrow, title, text);
-    box.scrollIntoView({ behavior: document.body.classList.contains('reduce-motion') ? 'auto' : 'smooth', block: 'nearest' });
   }));
 
   const econData = {
@@ -93,7 +129,7 @@
     const data = econData[key] || econData.agro; const view = $('#econView'); if (!view) return;
     view.replaceChildren();
     const big = document.createElement('div'); big.className='big'; big.textContent=data[0];
-    const wrap = document.createElement('div'); const h = document.createElement('h3'); h.textContent=data[1]; const p=document.createElement('p'); p.textContent=data[2]; const chips=document.createElement('div'); chips.className='chips';
+    const wrap = document.createElement('div'); const h=document.createElement('h3'); h.textContent=data[1]; const p=document.createElement('p'); p.textContent=data[2]; const chips=document.createElement('div'); chips.className='chips';
     data[3].forEach(item=>{const s=document.createElement('span');s.textContent=item;chips.appendChild(s);}); wrap.append(h,p,chips); view.append(big,wrap);
   };
   $$('.econ-tabs button').forEach(btn=>btn.addEventListener('click',()=>{$$('.econ-tabs button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderEcon(btn.dataset.econ);}));
@@ -105,12 +141,40 @@
     { q:'¿Qué idea ayuda a relacionar economía y conservación?', a:['Usar los recursos sin considerar el futuro','Buscar un uso sostenible del territorio','Eliminar todos los usos productivos'], correct:1, note:'La sostenibilidad busca equilibrar bienestar, producción y conservación.' }
   ];
   let quizIndex=0, score=0, answered=false;
-  const question=$('#question'), answers=$('#answers'), feedback=$('#quizFeedback'), next=$('#nextQuestion'), count=$('#quizCount'), bar=$('#quizBar');
-  const renderQuiz=()=>{ const item=questions[quizIndex]; if(!item||!question||!answers)return; answered=false; feedback.textContent=''; next.hidden=true; count.textContent=`${quizIndex+1} / ${questions.length}`; bar.style.width=`${((quizIndex)/questions.length)*100}%`; question.textContent=item.q; answers.replaceChildren(); item.a.forEach((answer,i)=>{const b=document.createElement('button');b.type='button';b.textContent=answer;b.addEventListener('click',()=>answerQuiz(i,b));answers.appendChild(b);}); };
-  const answerQuiz=(choice, clicked)=>{ if(answered)return; answered=true; const item=questions[quizIndex]; $$('#answers button').forEach((b,i)=>{b.disabled=true;if(i===item.correct)b.setAttribute('aria-label','Respuesta correcta');}); if(choice===item.correct){score++;feedback.textContent=`✓ Correcto. ${item.note}`;}else{feedback.textContent=`No exactamente. ${item.note}`;} next.hidden=false; bar.style.width=`${((quizIndex+1)/questions.length)*100}%`; };
-  next?.addEventListener('click',()=>{if(!answered)return;if(quizIndex<questions.length-1){quizIndex++;renderQuiz();}else{question.textContent=`Resultado: ${score}/${questions.length}`;answers.replaceChildren();feedback.textContent=score===questions.length?'¡Excelente! Ya tienes una buena base para explorar la región.':'Buen trabajo. Vuelve a recorrer las secciones y prueba de nuevo.';next.hidden=true;}});
+  const question=$('#quizQuestion'), answers=$('#quizAnswers'), feedback=$('#quizResult'), next=$('#quizNext');
+  const renderQuiz=()=>{const item=questions[quizIndex];if(!item||!question||!answers)return;answered=false;feedback.textContent='';next.hidden=true;question.textContent=item.q;answers.replaceChildren();item.a.forEach((answer,i)=>{const b=document.createElement('button');b.type='button';b.textContent=answer;b.addEventListener('click',()=>{if(answered)return;answered=true;$$('#quizAnswers button').forEach((btn,index)=>{btn.disabled=true;if(index===item.correct)btn.classList.add('correct');});if(i===item.correct){score++;feedback.textContent=`✓ Correcto. ${item.note}`;}else{b.classList.add('wrong');feedback.textContent=`No exactamente. ${item.note}`;}next.hidden=false;});answers.appendChild(b);});};
+  next?.addEventListener('click',()=>{if(!answered)return;if(quizIndex<questions.length-1){quizIndex++;renderQuiz();}else{question.textContent=`Resultado: ${score}/${questions.length}`;answers.replaceChildren();feedback.textContent=score===questions.length?'¡Excelente! Ya tienes una buena base para explorar la región.':'Buen trabajo. Recorre de nuevo las secciones y vuelve a intentarlo.';next.hidden=true;}});
   renderQuiz();
 
-  const reflection=$('#reflection'); const saved=$('#reflectionSaved'); const savedText=safeGet('orinoquia-propuesta',''); if(reflection)reflection.value=savedText;
-  $('#saveReflection')?.addEventListener('click',()=>{const value=(reflection?.value||'').trim(); if(!value){saved.textContent='Escribe una propuesta primero.';return;} safeSet('orinoquia-propuesta',value.slice(0,300)); saved.textContent='Propuesta guardada en este dispositivo.'; window.setTimeout(()=>{saved.textContent='';},2500);});
+  const tfButtons=$$('[data-tf]');
+  tfButtons.forEach(btn=>btn.addEventListener('click',()=>{
+    const result=$('#tfResult'); const correct=btn.dataset.tf==='true';
+    result.textContent=correct?'✓ Verdadero. La Sierra de La Macarena está en el Meta.':'✕ Falso. La afirmación es verdadera: está en el Meta.';
+  }));
+
+  let matchTarget=null;
+  const matchResult=$('#matchResult');
+  $$('.match-list button').forEach(btn=>btn.addEventListener('click',()=>{matchTarget=btn.dataset.match;$$('.match-list button').forEach(b=>b.classList.remove('selected'));btn.classList.add('selected');matchResult.textContent='Ahora escoge el sector que corresponde.';}));
+  $$('.match-options button').forEach(btn=>btn.addEventListener('click',()=>{
+    if(!matchTarget){matchResult.textContent='Primero selecciona una actividad.';return;}
+    const ok=btn.dataset.sector===matchTarget;
+    matchResult.textContent=ok?'✓ Bien relacionado.':'Todavía no. Piensa en si la actividad obtiene recursos, transforma productos o presta servicios.';
+    if(ok){const target=$(`[data-match="${matchTarget}"]`);target?.classList.add('matched');matchTarget=null;}
+  }));
+
+  const reflection=$('#reflection');
+  const saved=$('#reflectionSaved');
+  if(reflection) reflection.value=safeGet('ruta-propuesta','');
+  $('#saveReflection')?.addEventListener('click',()=>{
+    const value=(reflection?.value||'').trim();
+    if(!value){saved.textContent='Escribe una propuesta primero.';return;}
+    safeSet('ruta-propuesta',value.slice(0,300));saved.textContent='Propuesta guardada en este dispositivo.';
+    window.setTimeout(()=>{saved.textContent='';},2500);
+  });
+
+  const revealItems=$$('.reveal');
+  if('IntersectionObserver' in window && !document.body.classList.contains('reduce-motion')){
+    const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target);}}),{threshold:.12});
+    revealItems.forEach(item=>observer.observe(item));
+  }else revealItems.forEach(item=>item.classList.add('visible'));
 })();
