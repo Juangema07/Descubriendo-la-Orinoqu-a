@@ -1,101 +1,60 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Descubre la Orinoquía colombiana: territorio, cultura, biodiversidad, economía y lugares para conocer.">
-  <title>Descubriendo la Orinoquía</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Descubriendo la Orinoquía: experiencia educativa e interactiva sobre territorio, biodiversidad, cultura y economía.">
+<meta name="theme-color" content="#173a2a">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';">
+<title>Descubriendo la Orinoquía</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="hero" id="inicio">
-    <nav class="nav container">
-      <a class="brand" href="#inicio">ORINOQUÍA<span>.</span></a>
-      <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
-      <div class="nav-links">
-        <a href="#territorio">Territorio</a>
-        <a href="#biodiversidad">Biodiversidad</a>
-        <a href="#cultura">Cultura</a>
-        <a href="#economia">Economía</a>
-      </div>
-    </nav>
+<div id="loader" aria-live="polite"><strong>ORINOQUÍA</strong><span>Preparando el recorrido…</span><i></i></div>
+<header class="nav-wrap">
+  <a class="brand" href="#inicio" aria-label="Inicio de Descubriendo la Orinoquía"><span>◒</span> ORINOQUÍA <small>EXPLORA</small></a>
+  <nav id="navLinks" aria-label="Secciones principales">
+    <a href="#territorio">Territorio</a><a href="#vida">Vida</a><a href="#cultura">Cultura</a><a href="#economia">Economía</a><a href="#reto">Reto</a>
+  </nav>
+  <button class="icon-btn" id="settingsBtn" type="button" aria-label="Abrir personalización" aria-expanded="false">⚙</button>
+  <button class="menu-btn" id="menuBtn" type="button" aria-label="Abrir menú" aria-expanded="false">☰</button>
+</header>
+<aside class="settings" id="settings" aria-hidden="true">
+  <button class="close" id="closeSettings" type="button" aria-label="Cerrar">×</button>
+  <p class="eyebrow">PERSONALIZA</p><h2>Tu recorrido</h2>
+  <label>Tema<select id="theme"><option value="llano">Llanura</option><option value="noche">Noche</option><option value="arena">Arena</option></select></label>
+  <label>Tamaño del texto<input id="fontSize" type="range" min="90" max="115" value="100"></label>
+  <label class="check"><input id="reduceMotion" type="checkbox"> Reducir animaciones</label>
+  <button class="reset-btn" id="resetSettings" type="button">Restablecer</button>
+</aside>
+<main>
+<section id="inicio" class="hero">
+  <div class="hero-copy container reveal"><p class="eyebrow light">COLOMBIA · REGIÓN ORINOQUÍA</p><h1>Donde la tierra se abre y <em>el horizonte respira.</em></h1><p>Una experiencia digital para conocer los llanos, sus ríos, su biodiversidad y la cultura de quienes habitan este territorio.</p><div class="actions"><a class="btn primary" href="#territorio">Comenzar recorrido ↓</a><a class="btn ghost" href="#reto">Poner a prueba lo aprendido</a></div><div class="hero-facts"><span><b>4</b> departamentos</span><span><b>2</b> temporadas marcadas</span><span><b>∞</b> historias</span></div></div>
+  <div class="sun"></div><div class="river-ribbon"></div><div class="grass grass-a"></div><div class="grass grass-b"></div><div class="hero-stamp">TIERRA<br><b>LLANERA</b></div>
+</section>
 
-    <div class="hero-content container">
-      <p class="eyebrow">COLOMBIA · REGIÓN ORINOQUÍA</p>
-      <h1>Descubre una tierra de <em>llanos, ríos y vida.</em></h1>
-      <p class="hero-text">Un recorrido visual por uno de los territorios más fascinantes de Colombia.</p>
-      <a class="button" href="#territorio">Explorar la región ↓</a>
-    </div>
-    <div class="hero-overlay"></div>
-  </header>
+<section class="intro band container reveal" id="territorio">
+  <div class="section-mark">01</div><div><p class="eyebrow">EL TERRITORIO</p><h2>Una región que cambia con <em>el agua y el tiempo.</em></h2><p class="lead">La Orinoquía colombiana reúne extensas sabanas, ríos, humedales y bosques de galería. Su paisaje se transforma entre temporadas de lluvia y sequía.</p></div>
+  <div class="fact-stack"><div><b>01</b><span>Sabanas y esteros</span></div><div><b>02</b><span>Ríos conectados al Orinoco</span></div><div><b>03</b><span>Gran diversidad de ecosistemas</span></div></div>
+</section>
 
-  <main>
-    <section class="intro section container" id="territorio">
-      <div>
-        <p class="eyebrow">01 · EL TERRITORIO</p>
-        <h2>Un paisaje que parece no tener fin</h2>
-      </div>
-      <div class="intro-copy">
-        <p>La Orinoquía colombiana se caracteriza por sus extensas sabanas, grandes ríos y ecosistemas que cambian con las temporadas de lluvia y sequía.</p>
-        <p>La región está estrechamente relacionada con la cuenca del río Orinoco y tiene una identidad cultural marcada por la vida llanera.</p>
-      </div>
-    </section>
+<section class="section terrain reveal"><div class="section-head container"><div><p class="eyebrow">MAPA MENTAL</p><h2>Piensa el territorio <em>por capas.</em></h2></div><p>Selecciona una capa para descubrir cómo se relaciona con las demás.</p></div>
+<div class="layer-layout container"><div class="layer-tabs" role="tablist" aria-label="Capas del territorio"><button class="layer-tab active" data-layer="paisaje" type="button">Paisaje</button><button class="layer-tab" data-layer="agua" type="button">Agua</button><button class="layer-tab" data-layer="poblacion" type="button">Población</button><button class="layer-tab" data-layer="conservacion" type="button">Conservación</button></div><article class="layer-view" id="layerView" aria-live="polite"></article></div></section>
 
-    <section class="stats container" aria-label="Datos destacados">
-      <article><strong>4</strong><span>departamentos principales</span></article>
-      <article><strong>2</strong><span>grandes temporadas climáticas</span></article>
-      <article><strong>∞</strong><span>paisajes por descubrir</span></article>
-    </section>
+<section class="section dark reveal" id="vida"><div class="section-head container"><div><p class="eyebrow">02 · BIODIVERSIDAD</p><h2>Un territorio lleno de <em>vida.</em></h2></div><p>La variedad de ambientes permite la presencia de especies adaptadas a sabanas, humedales, ríos y bosques.</p></div>
+<div class="wildlife-grid container"><button class="wild-card capybara" data-info="chigüiro" type="button"><span>01</span><strong>Chigüiro</strong><small>Fauna de sabana y humedales</small></button><button class="wild-card birds" data-info="aves" type="button"><span>02</span><strong>Aves</strong><small>Gran diversidad asociada a humedales</small></button><button class="wild-card wetlands" data-info="humedales" type="button"><span>03</span><strong>Humedales</strong><small>Agua, refugio y regulación ambiental</small></button></div>
+<div class="detail-box container" id="wildDetail"><p class="eyebrow">EXPLORA</p><h3>Selecciona una tarjeta</h3><p>La información aparecerá aquí sin recargar la página.</p></div></section>
 
-    <section class="feature section" id="biodiversidad">
-      <div class="feature-image nature-image"><span>Sabana llanera</span></div>
-      <div class="feature-content">
-        <p class="eyebrow">02 · BIODIVERSIDAD</p>
-        <h2>La vida encuentra su lugar</h2>
-        <p>Los humedales, bosques de galería y sabanas sostienen una gran variedad de especies. Chigüiros, venados, aves, reptiles y peces forman parte de la riqueza natural del territorio.</p>
-        <div class="tags"><span>Humedales</span><span>Sabanas</span><span>Fauna</span><span>Flora</span></div>
-      </div>
-    </section>
+<section class="section culture reveal" id="cultura"><div class="section-head container"><div><p class="eyebrow">03 · IDENTIDAD</p><h2>La cultura se <em>vive.</em></h2></div><p>Tradiciones, música, trabajo y gastronomía construyen una identidad ligada al territorio.</p></div>
+<div class="culture-grid container"><article><div class="number">01</div><h3>Joropo</h3><p>Música, canto y danza que forman parte de la identidad llanera.</p></article><article><div class="number">02</div><h3>Trabajo del llano</h3><p>La ganadería y las labores rurales han marcado prácticas y saberes regionales.</p></article><article><div class="number">03</div><h3>Gastronomía</h3><p>Preparaciones tradicionales relacionadas con los productos y costumbres locales.</p></article><article><div class="number">04</div><h3>Fiestas</h3><p>Encuentros comunitarios donde música, tradición y territorio se conectan.</p></article></div></section>
 
-    <section class="cards section container" id="cultura">
-      <div class="section-heading">
-        <p class="eyebrow">03 · IDENTIDAD</p>
-        <h2>Cultura llanera</h2>
-      </div>
-      <div class="card-grid">
-        <article class="card"><div class="card-number">01</div><h3>El joropo</h3><p>Música y danza que expresan la identidad, energía y tradición de los Llanos.</p></article>
-        <article class="card"><div class="card-number">02</div><h3>El trabajo del llano</h3><p>La ganadería y las labores tradicionales han influido profundamente en la cultura regional.</p></article>
-        <article class="card"><div class="card-number">03</div><h3>Gastronomía</h3><p>Sabores tradicionales ligados al territorio, la ganadería y los productos de la región.</p></article>
-      </div>
-    </section>
+<section class="section economy reveal" id="economia"><div class="section-head container"><div><p class="eyebrow">04 · ECONOMÍA</p><h2>Producir sin olvidar <em>el territorio.</em></h2></div><p>La economía regional combina actividades agropecuarias, energía, comercio, servicios y turismo.</p></div><div class="econ-tabs container"><button class="active" data-econ="agro" type="button">🌱 Agro</button><button data-econ="energia" type="button">⚡ Energía</button><button data-econ="turismo" type="button">🏞️ Turismo</button><button data-econ="servicios" type="button">◌ Servicios</button></div><article class="econ-view container" id="econView" aria-live="polite"></article></section>
 
-    <section class="economy section" id="economia">
-      <div class="container economy-inner">
-        <div>
-          <p class="eyebrow">04 · ECONOMÍA Y FUTURO</p>
-          <h2>Una región con grandes oportunidades</h2>
-        </div>
-        <div>
-          <p>La producción agropecuaria, la energía, el turismo de naturaleza y la conservación hacen parte de los principales temas económicos y ambientales de la Orinoquía.</p>
-          <p class="note">Conocer el territorio también significa comprender la importancia de proteger sus ecosistemas.</p>
-        </div>
-      </div>
-    </section>
+<section class="section dark reveal" id="reto"><div class="section-head container"><div><p class="eyebrow">05 · ACTIVIDAD</p><h2>¿Cuánto <em>recuerdas?</em></h2></div><p>Responde tres preguntas y recibe una retroalimentación inmediata.</p></div><div class="quiz container" id="quiz"><div class="quiz-progress"><span id="quizCount">1 / 3</span><div><i id="quizBar"></i></div></div><h3 id="question"></h3><div class="answers" id="answers"></div><p id="quizFeedback" class="quiz-feedback" aria-live="polite"></p><button class="btn primary" id="nextQuestion" type="button" hidden>Siguiente →</button></div></section>
 
-    <section class="cta section container">
-      <p class="eyebrow">DESCUBRE · APRENDE · CONSERVA</p>
-      <h2>La Orinoquía tiene mucho más por contar.</h2>
-      <a class="button" href="#inicio">Volver al inicio ↑</a>
-    </section>
-  </main>
-
-  <footer>
-    <div class="container footer-inner">
-      <span>Descubriendo la Orinoquía</span>
-      <span>Proyecto educativo · Colombia</span>
-    </div>
-  </footer>
-
-  <script src="script.js"></script>
+<section class="section reflection reveal"><div class="reflection-grid container"><div><p class="eyebrow">CIERRE</p><h2>Conocer también es <em>cuidar.</em></h2><p>Escribe una propuesta breve para proteger la biodiversidad o fortalecer la cultura de la Orinoquía.</p></div><div><textarea id="reflection" maxlength="300" placeholder="Mi propuesta…" aria-label="Mi propuesta"></textarea><div class="reflection-actions"><button class="btn dark-btn" id="saveReflection" type="button">Guardar propuesta</button><span id="reflectionSaved" role="status"></span></div></div></div></section>
+</main>
+<footer><div class="container footer-inner"><div><strong>DESCUBRIENDO LA ORINOQUÍA</strong><span>Proyecto educativo · Colombia</span></div><a href="#inicio">Volver arriba ↑</a></div></footer>
+<script src="script.js" defer></script>
 </body>
 </html>
