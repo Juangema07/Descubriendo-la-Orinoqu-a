@@ -8,7 +8,7 @@ const addPresentationViewer=()=>{const section=$('#presentacion');const card=$('
 const addScrollEffects=()=>{const targets=$$('.section > .container, .photo-break, .visual-card, .nature-card, .people-grid article, .culture-list > div, .economy-cards article, .challenge-grid details, .park-grid article, .game-card, .resource-list a, .extra-visual-tile, .info-expansion');targets.forEach((el,i)=>{if(el.classList.contains('scroll-reveal'))return;el.classList.add('scroll-reveal');el.style.setProperty('--reveal-delay',`${Math.min(i%6,5)*55}ms`)});const items=$$('.scroll-reveal');if('IntersectionObserver'in window){const io=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('is-visible');io.unobserve(entry.target)}}),{threshold:.1,rootMargin:'0px 0px -40px 0px'});items.forEach(x=>io.observe(x))}else items.forEach(x=>x.classList.add('is-visible'))};
 const init=()=>{
 addGallery('#territorio','La región también se entiende mirando el territorio',[
-['https://upload.wikimedia.org/wikipedia/commons/7/9/Mapa_de_Colombia_%28regi%C3%B3n_de_la_Orinoqu%C3%ADa%29.svg','Mapa de la región natural de la Orinoquía','Ubicación','La región se localiza al oriente de Colombia y está relacionada con la cuenca del Orinoco.'],
+['https://upload.wikimedia.org/wikipedia/commons/1/16/Mapa_de_Colombia_%28regi%C3%B3n_de_la_Orinoqu%C3%ADa%29.svg','Mapa de la región natural de la Orinoquía','Ubicación','La región se localiza al oriente de Colombia y está relacionada con la cuenca del Orinoco.'],
 ['https://upload.wikimedia.org/wikipedia/commons/7/79/Yopal-Casanare.jpg','Vista de Yopal, Casanare','Casanare','Una ciudad que funciona como centro urbano y de servicios del departamento.'],
 ['https://upload.wikimedia.org/wikipedia/commons/5/59/Cerro_La_Bandera%2C_Puerto_Carre%C3%B1o_-_panoramio.jpg','Cerro La Bandera en Puerto Carreño','Vichada','Desde este sector se aprecia el paisaje urbano y parte del entorno del río Orinoco.']
 ]);
@@ -35,12 +35,12 @@ addGallery('#cultura','Imágenes de la identidad llanera',[
 addGallery('#economia','Producción, agricultura y territorio',[
 ['https://upload.wikimedia.org/wikipedia/commons/9/9b/Llanos_Orientales_-_Arroz.jpg','Arroz en los Llanos Orientales','Agricultura','Los cultivos forman parte de la actividad agropecuaria de la región.'],
 ['https://upload.wikimedia.org/wikipedia/commons/8/84/Hacienda_de_Cumaral.jpg','Hacienda de Cumaral','Actividad rural','Las haciendas y espacios rurales muestran otra dimensión del paisaje productivo.'],
-['https://upload.wikimedia.org/wikipedia/commons/e/e7/Navegabilidad_por_el_R%C3%ADo_Meta.jpg','Transporte por el río Meta','Comercio y conexión','Mover personas y productos también depende de las conexiones territoriales.']
+['https://upload.wikimedia.org/wikipedia/commons/1/10/Los_Llanos_Colombia_by_David.png','Paisaje de Los Llanos','Territorio productivo','El paisaje rural permite observar cómo se relacionan producción, espacio y naturaleza.']
 ]);
 addGallery('#retos','Cambios del territorio que vale la pena observar',[
 ['https://upload.wikimedia.org/wikipedia/commons/0/02/%22Bajo%22_llanura_inundada_en_La_Primavera%2C_Vichada.jpg','Llanura inundada en Vichada','Agua','Las temporadas húmedas cambian temporalmente la apariencia y dinámica del paisaje.'],
 ['https://upload.wikimedia.org/wikipedia/commons/8/8d/Morichal_en_La_Primavera%2C_Vichada.jpg','Morichal en La Primavera','Ecosistemas','Los ambientes asociados al agua necesitan manejo y conservación.'],
-['https://upload.wikimedia.org/wikipedia/commons/8/8d/Cuenca_Rio_Cravo_Sur.jpg','Cuenca del río Cravo Sur','Territorio y agua','Observar las cuencas ayuda a entender la relación entre actividades humanas y recursos hídricos.']
+['https://upload.wikimedia.org/wikipedia/commons/b/b2/NP_Llanos27_lo_%285853938480%29.jpg','Paisaje de los Llanos','Transformación','Mirar el paisaje permite conversar sobre los cambios que producen las actividades humanas y naturales.']
 ]);
 addGallery('.parks','Áreas naturales y paisajes protegidos',[
 ['https://upload.wikimedia.org/wikipedia/commons/8/0/TuparroNPP_banner.jpg','Paisaje de El Tuparro','El Tuparro','Un área protegida del Vichada de gran importancia natural.'],
